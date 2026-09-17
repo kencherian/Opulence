@@ -15,7 +15,7 @@ export const SplitEditorialSection: React.FC<SplitEditorialSectionProps> = ({
   return (
     <section
       id="split-editorial-section"
-      className="w-full grid grid-cols-1 lg:grid-cols-2 select-none overflow-hidden min-h-[500px]"
+      className="w-full min-h-screen grid grid-cols-1 lg:grid-cols-2 select-none overflow-hidden"
     >
       {/* Left Visual Half - Matches Screenshot 6 */}
       <div className="relative w-full h-[360px] sm:h-[450px] lg:h-auto overflow-hidden bg-black">

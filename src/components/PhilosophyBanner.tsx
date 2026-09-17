@@ -13,7 +13,7 @@ export const PhilosophyBanner: React.FC<PhilosophyBannerProps> = ({
   return (
     <section
       id="philosophy-banner-section"
-      className="relative w-full min-h-[70vh] flex flex-col items-center justify-center text-center px-6 sm:px-12 py-24 select-none overflow-hidden bg-[#161716]"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 sm:px-12 py-24 select-none overflow-hidden bg-[#161716]"
     >
       {/* Background Image / Texture with dark gradient overlay */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">

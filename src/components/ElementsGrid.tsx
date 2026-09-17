@@ -14,9 +14,9 @@ export const ElementsGrid: React.FC<ElementsGridProps> = ({
   return (
     <section
       id="elements-grid-section"
-      className="w-full py-24 sm:py-32 px-6 sm:px-12 md:px-20 bg-[#212321] text-[#E5DFD1] select-none"
+      className="w-full min-h-screen flex items-center py-20 px-6 sm:px-12 md:px-20 bg-[#212321] text-[#E5DFD1] select-none"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Section Heading - Matches Screenshot 4 "ELEMENTS OF EARTH" */}
         <div className="mb-14 sm:mb-20">
           <h2

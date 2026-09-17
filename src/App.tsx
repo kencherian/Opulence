@@ -185,11 +185,13 @@ export default function App() {
       />
 
       {/* 3. Hero Overlay (Matches Screenshot 1) */}
-      <HeroOverlay
-        theme={currentTheme}
-        onExploreClick={() => scrollToSection('secondary-video-section')}
-        onInspectClick={() => setIsLightStudyOpen(true)}
-      />
+      <div className="editorial-section fade-in">
+        <HeroOverlay
+          theme={currentTheme}
+          onExploreClick={() => scrollToSection('secondary-video-section')}
+          onInspectClick={() => setIsLightStudyOpen(true)}
+        />
+      </div>
 
       {/* 4. Bottom Immersion Toolbar (Theme Selector, Play/Pause, Speed, Light Filter) */}
       <HeroControls

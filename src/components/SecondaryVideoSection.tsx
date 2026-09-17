@@ -28,7 +28,7 @@ export const SecondaryVideoSection: React.FC<SecondaryVideoSectionProps> = ({
   return (
     <section
       id="secondary-video-section"
-      className="relative w-full min-h-[85vh] sm:min-h-[90vh] flex items-center justify-start overflow-hidden px-6 sm:px-16 md:px-24 py-20 select-none bg-[#111211]"
+      className="relative w-full min-h-screen flex items-center justify-start overflow-hidden px-6 sm:px-16 md:px-24 py-20 select-none bg-[#111211]"
     >
       {/* Secondary Video Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">

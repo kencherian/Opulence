@@ -23,9 +23,9 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTheme, onOpenStory }) =>
   return (
     <footer
       id="main-footer"
-      className="w-full bg-[#1C1D1B] text-[#C7C2B6] pt-20 pb-12 px-6 sm:px-12 md:px-20 select-none border-t border-white/5"
+      className="w-full min-h-screen flex items-center bg-[#1C1D1B] text-[#C7C2B6] py-16 px-6 sm:px-12 md:px-20 select-none border-t border-white/5"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Main Grid - Matches Screenshot 7 */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
           {/* Left Column: Join our community */}

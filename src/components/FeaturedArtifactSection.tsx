@@ -15,7 +15,7 @@ export const FeaturedArtifactSection: React.FC<FeaturedArtifactSectionProps> = (
   return (
     <section
       id="featured-artifact-section"
-      className="relative w-full py-24 sm:py-32 px-6 sm:px-12 md:px-20 bg-[#282927] text-[#E5DFD1] overflow-hidden"
+      className="relative w-full min-h-screen flex items-center py-20 px-6 sm:px-12 md:px-20 bg-[#282927] text-[#E5DFD1] overflow-hidden"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Visual Frame - Matches Screenshot 3 */}
