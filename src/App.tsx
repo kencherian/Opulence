@@ -128,6 +128,48 @@ export default function App() {
     };
   }, [currentThemeId]);
 
+  // Subtle Y-axis parallax effect on text elements inside .editorial-section
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const updateParallax = () => {
+      const sections = document.querySelectorAll<HTMLElement>('.editorial-section');
+      const viewportHeight = window.innerHeight;
+      const viewportCenter = viewportHeight / 2;
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        // Calculate only if the section is within or near the visible viewport
+        if (rect.bottom > -150 && rect.top < viewportHeight + 150) {
+          const sectionCenter = rect.top + rect.height / 2;
+          const distanceFromCenter = sectionCenter - viewportCenter;
+          // When scrolling down, sectionCenter moves up (distanceFromCenter becomes negative).
+          // Multiplying by negative factor (-0.08) creates a positive translateY offset,
+          // causing the text to move slightly slower than the background video/section.
+          const offset = distanceFromCenter * -0.08;
+          // Clamp to avoid extreme separation while maintaining deep optical nuance
+          const clampedOffset = Math.max(-40, Math.min(40, offset));
+          section.style.setProperty('--parallax-y', `${clampedOffset.toFixed(1)}px`);
+        }
+      });
+    };
+
+    const handleScroll = () => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(updateParallax);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    updateParallax();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [currentThemeId]);
+
   // Keyboard accessibility shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

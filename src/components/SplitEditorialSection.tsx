@@ -30,11 +30,11 @@ export const SplitEditorialSection: React.FC<SplitEditorialSectionProps> = ({
       </div>
 
       {/* Right Warm Beige Container - Matches Screenshot 6 */}
-      <div className="w-full bg-[#DCD4BE] text-[#1E201E] px-8 sm:px-16 md:px-20 py-16 sm:py-24 flex flex-col items-start justify-center">
+      <div className="w-full bg-[#DCD4BE] text-[#1E201E] px-8 sm:px-16 md:px-20 py-16 sm:py-24 flex flex-col items-start justify-center parallax-text-group">
         {/* Title: "FOLLOW THE JOURNEY" */}
         <h2
           id="split-editorial-title"
-          className="font-serif-display text-4xl sm:text-5xl md:text-6xl tracking-[0.05em] uppercase text-[#1E201E] font-normal leading-[1.05] mb-5"
+          className="font-serif-display text-4xl sm:text-5xl md:text-6xl tracking-[0.05em] uppercase text-[#1E201E] font-normal leading-[1.05] mb-5 parallax-title"
         >
           {story.title}
         </h2>
@@ -42,7 +42,7 @@ export const SplitEditorialSection: React.FC<SplitEditorialSectionProps> = ({
         {/* Narrative */}
         <p
           id="split-editorial-desc"
-          className="text-sm sm:text-base font-sans-body text-[#3B3D3A] font-light leading-relaxed mb-6 max-w-md"
+          className="text-sm sm:text-base font-sans-body text-[#3B3D3A] font-light leading-relaxed mb-6 max-w-md parallax-desc"
         >
           {story.description}
         </p>
@@ -50,7 +50,7 @@ export const SplitEditorialSection: React.FC<SplitEditorialSectionProps> = ({
         {/* Social Handle */}
         <p
           id="split-editorial-handle"
-          className="text-xs font-sans-body uppercase tracking-[0.24em] text-[#4A4D48] mb-8 font-medium"
+          className="text-xs font-sans-body uppercase tracking-[0.24em] text-[#4A4D48] mb-8 font-medium parallax-text"
         >
           {story.handle}
         </p>

@@ -29,10 +29,10 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTheme, onOpenStory }) =>
         {/* Main Grid - Matches Screenshot 7 */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
           {/* Left Column: Join our community */}
-          <div className="lg:col-span-5 flex flex-col items-start">
+          <div className="lg:col-span-5 flex flex-col items-start parallax-text-group">
             <h3
               id="footer-community-heading"
-              className="font-serif-display text-2xl sm:text-3xl tracking-[0.04em] text-[#E5DFD1] font-normal mb-6"
+              className="font-serif-display text-2xl sm:text-3xl tracking-[0.04em] text-[#E5DFD1] font-normal mb-6 parallax-title"
             >
               Join our community
             </h3>

@@ -28,11 +28,11 @@ export const PhilosophyBanner: React.FC<PhilosophyBannerProps> = ({
       </div>
 
       {/* Content - Matches Screenshot 5 */}
-      <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+      <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center parallax-text-group">
         {/* Title: "TRUE TO NATURE" */}
         <h2
           id="philosophy-title"
-          className="font-serif-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.08em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-6 drop-shadow-md"
+          className="font-serif-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.08em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-6 drop-shadow-md parallax-title"
         >
           {theme.philosophy.title}
         </h2>
@@ -40,7 +40,7 @@ export const PhilosophyBanner: React.FC<PhilosophyBannerProps> = ({
         {/* Narrative */}
         <p
           id="philosophy-desc"
-          className="text-sm sm:text-base md:text-lg font-sans-body text-[#C9C4B8] max-w-2xl font-light leading-relaxed mb-10 drop-shadow text-balance"
+          className="text-sm sm:text-base md:text-lg font-sans-body text-[#C9C4B8] max-w-2xl font-light leading-relaxed mb-10 drop-shadow text-balance parallax-desc"
         >
           {theme.philosophy.description}
         </p>

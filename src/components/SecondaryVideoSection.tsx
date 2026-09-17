@@ -56,11 +56,11 @@ export const SecondaryVideoSection: React.FC<SecondaryVideoSectionProps> = ({
       </div>
 
       {/* Content Block - Left aligned matching Screenshot 2 */}
-      <div className="relative z-10 max-w-2xl text-left">
+      <div className="relative z-10 max-w-2xl text-left parallax-text-group">
         {/* Eyebrow - e.g. "OCEAN VISTAS" */}
         <p
           id="secondary-hero-eyebrow"
-          className="text-xs sm:text-sm font-sans-body uppercase tracking-[0.26em] text-[#B5B0A2] mb-3 sm:mb-4 drop-shadow-sm font-light"
+          className="text-xs sm:text-sm font-sans-body uppercase tracking-[0.26em] text-[#B5B0A2] mb-3 sm:mb-4 drop-shadow-sm font-light parallax-text"
         >
           {theme.secondaryHero.eyebrow}
         </p>
@@ -68,7 +68,7 @@ export const SecondaryVideoSection: React.FC<SecondaryVideoSectionProps> = ({
         {/* Big Serif Heading - e.g. "COASTAL SERENITY" */}
         <h2
           id="secondary-hero-title"
-          className="font-serif-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.06em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-4 sm:mb-6 drop-shadow-md"
+          className="font-serif-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.06em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-4 sm:mb-6 drop-shadow-md parallax-title"
         >
           {theme.secondaryHero.title}
         </h2>
@@ -76,7 +76,7 @@ export const SecondaryVideoSection: React.FC<SecondaryVideoSectionProps> = ({
         {/* Subtitle - e.g. "Experience the rhythm of the tides" */}
         <p
           id="secondary-hero-desc"
-          className="text-sm sm:text-base md:text-lg font-sans-body text-[#C5C0B3] font-light leading-relaxed mb-8 drop-shadow max-w-lg"
+          className="text-sm sm:text-base md:text-lg font-sans-body text-[#C5C0B3] font-light leading-relaxed mb-8 drop-shadow max-w-lg parallax-desc"
         >
           {theme.secondaryHero.description}
         </p>

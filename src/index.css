@@ -82,9 +82,39 @@
   transform: translateY(0) !important;
 }
 
+/* Subtle Y-axis parallax effect on text elements inside editorial sections */
+.editorial-section .parallax-text-group,
+.editorial-section .parallax-text,
+.editorial-section .parallax-title,
+.editorial-section .parallax-desc {
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.editorial-section .parallax-title {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 1.15), 0);
+}
+
+.editorial-section .parallax-desc {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.82), 0);
+}
+
+.editorial-section .parallax-text {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.95), 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .editorial-section {
     opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .editorial-section .parallax-text-group,
+  .editorial-section .parallax-text,
+  .editorial-section .parallax-title,
+  .editorial-section .parallax-desc {
     transform: none !important;
     transition: none !important;
   }

@@ -35,11 +35,11 @@ export const FeaturedArtifactSection: React.FC<FeaturedArtifactSectionProps> = (
         </div>
 
         {/* Right Editorial Text - Matches Screenshot 3 */}
-        <div className="lg:col-span-6 flex flex-col items-start justify-center">
+        <div className="lg:col-span-6 flex flex-col items-start justify-center parallax-text-group">
           {/* Eyebrow - e.g. "FEATURED LANDSCAPE" */}
           <p
             id="featured-artifact-eyebrow"
-            className="text-xs font-sans-body uppercase tracking-[0.28em] text-[#AFA99B] mb-3 sm:mb-4 font-light"
+            className="text-xs font-sans-body uppercase tracking-[0.28em] text-[#AFA99B] mb-3 sm:mb-4 font-light parallax-text"
           >
             {artifact.eyebrow}
           </p>
@@ -47,7 +47,7 @@ export const FeaturedArtifactSection: React.FC<FeaturedArtifactSectionProps> = (
           {/* Title - e.g. "MOUNTAIN DAWN" */}
           <h2
             id="featured-artifact-title"
-            className="font-serif-display text-4xl sm:text-6xl md:text-7xl tracking-[0.06em] uppercase text-[#ECE7DC] font-normal leading-[1.05] mb-6 drop-shadow-sm"
+            className="font-serif-display text-4xl sm:text-6xl md:text-7xl tracking-[0.06em] uppercase text-[#ECE7DC] font-normal leading-[1.05] mb-6 drop-shadow-sm parallax-title"
           >
             {artifact.title}
           </h2>
@@ -55,7 +55,7 @@ export const FeaturedArtifactSection: React.FC<FeaturedArtifactSectionProps> = (
           {/* Paragraph */}
           <p
             id="featured-artifact-desc"
-            className="text-sm sm:text-base font-sans-body text-[#BDB8AC] font-light leading-relaxed mb-8 max-w-xl"
+            className="text-sm sm:text-base font-sans-body text-[#BDB8AC] font-light leading-relaxed mb-8 max-w-xl parallax-desc"
           >
             {artifact.description}
           </p>
