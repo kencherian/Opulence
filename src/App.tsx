@@ -98,6 +98,36 @@ export default function App() {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
+  // Intersection Observer to add 'fade-in' class to section components on viewport entry
+  useEffect(() => {
+    const observerCallback: IntersectionObserverCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          // Also add to any child section/footer element
+          const innerSection = entry.target.querySelector('section, footer');
+          if (innerSection) {
+            innerSection.classList.add('fade-in');
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.12,
+    });
+
+    const targets = document.querySelectorAll('.editorial-section');
+    targets.forEach((target) => observer.observe(target));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [currentThemeId]);
+
   // Keyboard accessibility shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -176,40 +206,52 @@ export default function App() {
       />
 
       {/* 5. Secondary Video Section (Matches Screenshot 2 - "COASTAL SERENITY") */}
-      <SecondaryVideoSection
-        theme={currentTheme}
-        onCtaClick={() => scrollToSection('elements-grid-section')}
-      />
+      <div className="editorial-section">
+        <SecondaryVideoSection
+          theme={currentTheme}
+          onCtaClick={() => scrollToSection('elements-grid-section')}
+        />
+      </div>
 
       {/* 6. Featured Artifact Split Showcase (Matches Screenshot 3 - "MOUNTAIN DAWN") */}
-      <FeaturedArtifactSection
-        theme={currentTheme}
-        onViewGallery={() => scrollToSection('elements-grid-section')}
-      />
+      <div className="editorial-section">
+        <FeaturedArtifactSection
+          theme={currentTheme}
+          onViewGallery={() => scrollToSection('elements-grid-section')}
+        />
+      </div>
 
       {/* 7. Elements Grid (Matches Screenshot 4 - "ELEMENTS OF EARTH") */}
-      <ElementsGrid
-        theme={currentTheme}
-        onSelectSpecimen={(item) => setSelectedSpecimen(item)}
-      />
+      <div className="editorial-section">
+        <ElementsGrid
+          theme={currentTheme}
+          onSelectSpecimen={(item) => setSelectedSpecimen(item)}
+        />
+      </div>
 
       {/* 8. Philosophy Banner (Matches Screenshot 5 - "TRUE TO NATURE") */}
-      <PhilosophyBanner
-        theme={currentTheme}
-        onCtaClick={() => setIsLightStudyOpen(true)}
-      />
+      <div className="editorial-section">
+        <PhilosophyBanner
+          theme={currentTheme}
+          onCtaClick={() => setIsLightStudyOpen(true)}
+        />
+      </div>
 
       {/* 9. Split Editorial Journey Section (Matches Screenshot 6 - "FOLLOW THE JOURNEY") */}
-      <SplitEditorialSection
-        theme={currentTheme}
-        onFollowClick={() => scrollToSection('main-footer')}
-      />
+      <div className="editorial-section">
+        <SplitEditorialSection
+          theme={currentTheme}
+          onFollowClick={() => scrollToSection('main-footer')}
+        />
+      </div>
 
       {/* 10. Minimalist Luxury Footer (Matches Screenshot 7) */}
-      <Footer
-        onSelectTheme={handleSelectTheme}
-        onOpenStory={() => setIsMenuOpen(true)}
-      />
+      <div className="editorial-section">
+        <Footer
+          onSelectTheme={handleSelectTheme}
+          onOpenStory={() => setIsMenuOpen(true)}
+        />
+      </div>
 
       {/* Interactive Light & Shadow / Specimen Modal */}
       <DetailModal
