@@ -19,6 +19,7 @@ import { Footer } from './components/Footer';
 import { DetailModal } from './components/DetailModal';
 import { MenuDrawer } from './components/MenuDrawer';
 import { LightStudyModal } from './components/LightStudyModal';
+import { ReadingProgressBar } from './components/ReadingProgressBar';
 import { soundscape } from './utils/soundscape';
 
 export default function App() {
@@ -130,6 +131,9 @@ export default function App() {
 
   return (
     <div id="video-hero-app-root" className="relative min-h-screen bg-[#111211] text-[#E5DFD1]">
+      {/* Reading Progress Indicator */}
+      <ReadingProgressBar />
+
       {/* 1. Fullscreen Looping Video Hero Background */}
       <VideoBackground
         theme={currentTheme}
