@@ -1,0 +1,6 @@
+{
+  "name": "Opulence - Video Hero Showcase",
+  "description": "Four immersive full-screen video hero pages highlighting Nature, Still Life, Materials, and Metal Parts with harmonized typography and loading optimization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
