@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #121312;
+    color: #e5e5e3;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-snap-type: y mandatory;
+  }
+
+  ::selection {
+    background-color: rgba(220, 210, 185, 0.3);
+    color: #ffffff;
+  }
+}
+
+.font-serif-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.font-sans-body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111211;
+}
+::-webkit-scrollbar-thumb {
+  background: #333633;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555955;
+}
+
+/* Editorial section scroll snapping, reveal & presentation layout */
+.editorial-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.editorial-section.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Subtle Y-axis parallax effect on text elements inside editorial sections */
+.editorial-section .parallax-text-group,
+.editorial-section .parallax-text,
+.editorial-section .parallax-title,
+.editorial-section .parallax-desc {
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  will-change: transform;
+}
+
+.editorial-section .parallax-title {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 1.15), 0);
+}
+
+.editorial-section .parallax-desc {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.82), 0);
+}
+
+.editorial-section .parallax-text {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.95), 0);
+}
+
+/* Dynamic Gaussian blur filter proportional to scroll velocity */
+.editorial-section > * {
+  filter: blur(var(--scroll-blur, 0px));
+  will-change: filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-section {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .editorial-section > * {
+    filter: none !important;
+  }
+
+  .editorial-section .parallax-text-group,
+  .editorial-section .parallax-text,
+  .editorial-section .parallax-title,
+  .editorial-section .parallax-desc {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
