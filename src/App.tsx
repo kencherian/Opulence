@@ -128,45 +128,90 @@ export default function App() {
     };
   }, [currentThemeId]);
 
-  // Subtle Y-axis parallax effect on text elements inside .editorial-section
+  // Viscous dampening curve & frame-by-frame lerp parallax engine for high-end text depth
   useEffect(() => {
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
+    let isRunning = false;
 
-    const updateParallax = () => {
+    // Stores the current interpolated position and target scroll position per section
+    const stateMap = new Map<HTMLElement, { current: number; target: number }>();
+    const LERP_FACTOR = 0.07; // Viscous dampening curve: lower values yield richer, silk-like deceleration
+
+    const lerp = (start: number, end: number, factor: number) => {
+      return start + (end - start) * factor;
+    };
+
+    const calculateTargets = () => {
       const sections = document.querySelectorAll<HTMLElement>('.editorial-section');
       const viewportHeight = window.innerHeight;
       const viewportCenter = viewportHeight / 2;
 
       sections.forEach((section) => {
+        let state = stateMap.get(section);
+        if (!state) {
+          state = { current: 0, target: 0 };
+          stateMap.set(section, state);
+        }
+
         const rect = section.getBoundingClientRect();
-        // Calculate only if the section is within or near the visible viewport
-        if (rect.bottom > -150 && rect.top < viewportHeight + 150) {
+        // Calculate targets only for elements within or closely approaching the viewport
+        if (rect.bottom > -200 && rect.top < viewportHeight + 200) {
           const sectionCenter = rect.top + rect.height / 2;
           const distanceFromCenter = sectionCenter - viewportCenter;
-          // When scrolling down, sectionCenter moves up (distanceFromCenter becomes negative).
-          // Multiplying by negative factor (-0.08) creates a positive translateY offset,
-          // causing the text to move slightly slower than the background video/section.
-          const offset = distanceFromCenter * -0.08;
-          // Clamp to avoid extreme separation while maintaining deep optical nuance
-          const clampedOffset = Math.max(-40, Math.min(40, offset));
-          section.style.setProperty('--parallax-y', `${clampedOffset.toFixed(1)}px`);
+          // Negative factor ensures text moves slightly slower than background video during scroll
+          const rawOffset = distanceFromCenter * -0.085;
+          state.target = Math.max(-42, Math.min(42, rawOffset));
+        } else {
+          state.target = 0;
         }
       });
     };
 
-    const handleScroll = () => {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(updateParallax);
+    const tick = () => {
+      let isSettled = true;
+
+      stateMap.forEach((state, section) => {
+        const delta = state.target - state.current;
+        // Dampen the motion frame-by-frame using linear interpolation
+        if (Math.abs(delta) > 0.04) {
+          state.current = lerp(state.current, state.target, LERP_FACTOR);
+          section.style.setProperty('--parallax-y', `${state.current.toFixed(2)}px`);
+          isSettled = false;
+        } else if (state.current !== state.target) {
+          state.current = state.target;
+          section.style.setProperty('--parallax-y', `${state.target.toFixed(2)}px`);
+        }
+      });
+
+      if (!isSettled) {
+        animationFrameId = requestAnimationFrame(tick);
+      } else {
+        isRunning = false;
+        animationFrameId = null;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
-    updateParallax();
+    const wakeLoop = () => {
+      calculateTargets();
+      if (!isRunning) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(tick);
+      }
+    };
+
+    window.addEventListener('scroll', wakeLoop, { passive: true });
+    window.addEventListener('resize', wakeLoop, { passive: true });
+
+    // Initial activation
+    wakeLoop();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('scroll', wakeLoop);
+      window.removeEventListener('resize', wakeLoop);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      stateMap.clear();
     };
   }, [currentThemeId]);
 
