@@ -103,11 +103,21 @@
   transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.95), 0);
 }
 
+/* Dynamic Gaussian blur filter proportional to scroll velocity */
+.editorial-section > * {
+  filter: blur(var(--scroll-blur, 0px));
+  will-change: filter;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .editorial-section {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  .editorial-section > * {
+    filter: none !important;
   }
 
   .editorial-section .parallax-text-group,

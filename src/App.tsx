@@ -128,10 +128,19 @@ export default function App() {
     };
   }, [currentThemeId]);
 
-  // Viscous dampening curve & frame-by-frame lerp parallax engine for high-end text depth
+  // Viscous dampening curve & frame-by-frame lerp parallax engine for high-end text depth & dynamic velocity blur
   useEffect(() => {
     let animationFrameId: number | null = null;
     let isRunning = false;
+
+    // Velocity & Gaussian blur tracking
+    let lastScrollY = window.scrollY;
+    let lastScrollTime = performance.now();
+    let targetBlur = 0;
+    let currentBlur = 0;
+    const MAX_BLUR = 3.5; // Max subtle Gaussian blur in pixels
+    const BLUR_SCALE = 1.6; // Velocity-to-blur multiplier
+    const BLUR_LERP_FACTOR = 0.12; // Viscous decay for blur transition
 
     // Stores the current interpolated position and target scroll position per section
     const stateMap = new Map<HTMLElement, { current: number; target: number }>();
@@ -169,6 +178,23 @@ export default function App() {
 
     const tick = () => {
       let isSettled = true;
+      const now = performance.now();
+
+      // Decay blur target once scroll event stream halts
+      if (now - lastScrollTime > 45) {
+        targetBlur = 0;
+      }
+
+      // Smoothly interpolate dynamic Gaussian blur
+      const blurDelta = targetBlur - currentBlur;
+      if (Math.abs(blurDelta) > 0.02) {
+        currentBlur = lerp(currentBlur, targetBlur, BLUR_LERP_FACTOR);
+        document.documentElement.style.setProperty('--scroll-blur', `${currentBlur.toFixed(2)}px`);
+        isSettled = false;
+      } else if (currentBlur !== targetBlur) {
+        currentBlur = targetBlur;
+        document.documentElement.style.setProperty('--scroll-blur', `${targetBlur.toFixed(2)}px`);
+      }
 
       stateMap.forEach((state, section) => {
         const delta = state.target - state.current;
@@ -192,6 +218,19 @@ export default function App() {
     };
 
     const wakeLoop = () => {
+      const now = performance.now();
+      const currentScrollY = window.scrollY;
+      const deltaY = Math.abs(currentScrollY - lastScrollY);
+      const deltaTime = Math.max(1, now - lastScrollTime);
+      const instantVelocity = deltaY / deltaTime; // px per millisecond
+
+      if (instantVelocity > 0.05) {
+        targetBlur = Math.min(MAX_BLUR, instantVelocity * BLUR_SCALE);
+      }
+
+      lastScrollY = currentScrollY;
+      lastScrollTime = now;
+
       calculateTargets();
       if (!isRunning) {
         isRunning = true;
@@ -211,6 +250,7 @@ export default function App() {
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);
       }
+      document.documentElement.style.removeProperty('--scroll-blur');
       stateMap.clear();
     };
   }, [currentThemeId]);
