@@ -142,6 +142,11 @@ export default function App() {
     const BLUR_SCALE = 1.6; // Velocity-to-blur multiplier
     const BLUR_LERP_FACTOR = 0.12; // Viscous decay for blur transition
 
+    // Horizontal mouse perspective-origin tracking
+    let targetPerspectiveOriginX = 50; // Default 50%
+    let currentPerspectiveOriginX = 50;
+    const PERSPECTIVE_LERP_FACTOR = 0.08; // Viscous response for mouse movement
+
     // Stores the current interpolated position and target scroll position per section
     const stateMap = new Map<HTMLElement, { current: number; target: number }>();
     const LERP_FACTOR = 0.07; // Viscous dampening curve: lower values yield richer, silk-like deceleration
@@ -196,6 +201,17 @@ export default function App() {
         document.documentElement.style.setProperty('--scroll-blur', `${targetBlur.toFixed(2)}px`);
       }
 
+      // Smoothly interpolate horizontal perspective-origin shift based on mouse X position
+      const perspectiveDelta = targetPerspectiveOriginX - currentPerspectiveOriginX;
+      if (Math.abs(perspectiveDelta) > 0.04) {
+        currentPerspectiveOriginX = lerp(currentPerspectiveOriginX, targetPerspectiveOriginX, PERSPECTIVE_LERP_FACTOR);
+        document.documentElement.style.setProperty('--perspective-origin-x', `${currentPerspectiveOriginX.toFixed(2)}%`);
+        isSettled = false;
+      } else if (currentPerspectiveOriginX !== targetPerspectiveOriginX) {
+        currentPerspectiveOriginX = targetPerspectiveOriginX;
+        document.documentElement.style.setProperty('--perspective-origin-x', `${targetPerspectiveOriginX.toFixed(2)}%`);
+      }
+
       stateMap.forEach((state, section) => {
         const delta = state.target - state.current;
         // Dampen the motion frame-by-frame using linear interpolation
@@ -238,8 +254,32 @@ export default function App() {
       }
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+      const centerX = window.innerWidth / 2;
+      const ratioX = (e.clientX - centerX) / (centerX || 1);
+      const clampedRatioX = Math.max(-1, Math.min(1, ratioX));
+      // Subtle shift: ±14% from 50% center (smoothly ranging between 36% and 64%)
+      targetPerspectiveOriginX = 50 + clampedRatioX * 14;
+
+      if (!isRunning) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(tick);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      // Gently return perspective-origin to center when cursor leaves viewport
+      targetPerspectiveOriginX = 50;
+      if (!isRunning) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(tick);
+      }
+    };
+
     window.addEventListener('scroll', wakeLoop, { passive: true });
     window.addEventListener('resize', wakeLoop, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave, { passive: true });
 
     // Initial activation
     wakeLoop();
@@ -247,10 +287,13 @@ export default function App() {
     return () => {
       window.removeEventListener('scroll', wakeLoop);
       window.removeEventListener('resize', wakeLoop);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);
       }
       document.documentElement.style.removeProperty('--scroll-blur');
+      document.documentElement.style.removeProperty('--perspective-origin-x');
       stateMap.clear();
     };
   }, [currentThemeId]);
