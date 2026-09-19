@@ -32,8 +32,18 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLightStudyOpen, setIsLightStudyOpen] = useState(false);
   const [cart, setCart] = useState<ArtifactSpecimen[]>([]);
+  const [heroMounted, setHeroMounted] = useState(false);
 
   const currentTheme = THEMES.find((t) => t.id === currentThemeId) || THEMES[0];
+
+  // Trigger smooth staggered entrance on hero section upon initial mount and theme changes
+  useEffect(() => {
+    setHeroMounted(false);
+    const timer = setTimeout(() => {
+      setHeroMounted(true);
+    }, 60);
+    return () => clearTimeout(timer);
+  }, [currentThemeId]);
 
   // Preload upcoming theme video buffers for instantaneous switching
   useEffect(() => {
@@ -121,7 +131,16 @@ export default function App() {
     });
 
     const targets = document.querySelectorAll('.editorial-section');
-    targets.forEach((target) => observer.observe(target));
+    targets.forEach((target, index) => {
+      if (index > 0) {
+        target.classList.remove('fade-in');
+        const innerSection = target.querySelector('section, footer');
+        if (innerSection) {
+          innerSection.classList.remove('fade-in');
+        }
+      }
+      observer.observe(target);
+    });
 
     return () => {
       observer.disconnect();
@@ -409,7 +428,7 @@ export default function App() {
       />
 
       {/* 3. Hero Overlay (Matches Screenshot 1) */}
-      <div className="editorial-section fade-in">
+      <div className={`editorial-section ${heroMounted ? 'fade-in' : ''}`}>
         <HeroOverlay
           theme={currentTheme}
           onExploreClick={() => scrollToSection('secondary-video-section')}

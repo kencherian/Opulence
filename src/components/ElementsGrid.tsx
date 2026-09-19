@@ -19,19 +19,23 @@ export const ElementsGrid: React.FC<ElementsGridProps> = ({
       <div className="max-w-7xl mx-auto w-full">
         {/* Section Heading - Matches Screenshot 4 "ELEMENTS OF EARTH" */}
         <div className="mb-14 sm:mb-20 parallax-text-group">
-          <h2
-            id="elements-grid-title"
-            className="font-serif-display text-4xl sm:text-6xl md:text-7xl tracking-[0.06em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-3 parallax-title"
-          >
-            {theme.elementsTitle}
-          </h2>
-          <p className="text-xs sm:text-sm font-sans-body uppercase tracking-[0.2em] text-[#9E9A8E] font-light parallax-desc">
-            {theme.elementsSubtitle}
-          </p>
+          <div className="stagger-title">
+            <h2
+              id="elements-grid-title"
+              className="font-serif-display text-4xl sm:text-6xl md:text-7xl tracking-[0.06em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-3 parallax-title"
+            >
+              {theme.elementsTitle}
+            </h2>
+          </div>
+          <div className="stagger-desc">
+            <p className="text-xs sm:text-sm font-sans-body uppercase tracking-[0.2em] text-[#9E9A8E] font-light parallax-desc">
+              {theme.elementsSubtitle}
+            </p>
+          </div>
         </div>
 
         {/* 3-Card Grid - Matches Screenshot 4 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+        <div className="stagger-actions grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
           {theme.specimens.map((item) => (
             <div
               key={item.id}

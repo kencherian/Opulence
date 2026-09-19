@@ -30,29 +30,35 @@ export const PhilosophyBanner: React.FC<PhilosophyBannerProps> = ({
       {/* Content - Matches Screenshot 5 */}
       <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center parallax-text-group">
         {/* Title: "TRUE TO NATURE" */}
-        <h2
-          id="philosophy-title"
-          className="font-serif-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.08em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-6 drop-shadow-md parallax-title"
-        >
-          {theme.philosophy.title}
-        </h2>
+        <div className="stagger-title w-full flex justify-center">
+          <h2
+            id="philosophy-title"
+            className="font-serif-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.08em] uppercase text-[#E5DFD1] font-normal leading-[1.0] mb-6 drop-shadow-md parallax-title text-center"
+          >
+            {theme.philosophy.title}
+          </h2>
+        </div>
 
         {/* Narrative */}
-        <p
-          id="philosophy-desc"
-          className="text-sm sm:text-base md:text-lg font-sans-body text-[#C9C4B8] max-w-2xl font-light leading-relaxed mb-10 drop-shadow text-balance parallax-desc"
-        >
-          {theme.philosophy.description}
-        </p>
+        <div className="stagger-desc w-full flex justify-center">
+          <p
+            id="philosophy-desc"
+            className="text-sm sm:text-base md:text-lg font-sans-body text-[#C9C4B8] max-w-2xl font-light leading-relaxed mb-10 drop-shadow text-balance parallax-desc text-center"
+          >
+            {theme.philosophy.description}
+          </p>
+        </div>
 
         {/* Button: "OUR PHILOSOPHY" */}
-        <button
-          id="philosophy-cta"
-          onClick={onCtaClick}
-          className="px-8 py-3.5 bg-black/40 hover:bg-white/15 border border-white/40 hover:border-white text-[#E5DFD1] hover:text-white text-xs font-sans-body uppercase tracking-[0.24em] transition-all duration-300 backdrop-blur-sm cursor-pointer shadow-lg"
-        >
-          {theme.philosophy.cta}
-        </button>
+        <div className="stagger-actions">
+          <button
+            id="philosophy-cta"
+            onClick={onCtaClick}
+            className="px-8 py-3.5 bg-black/40 hover:bg-white/15 border border-white/40 hover:border-white text-[#E5DFD1] hover:text-white text-xs font-sans-body uppercase tracking-[0.24em] transition-all duration-300 backdrop-blur-sm cursor-pointer shadow-lg"
+          >
+            {theme.philosophy.cta}
+          </button>
+        </div>
       </div>
     </section>
   );

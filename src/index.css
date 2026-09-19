@@ -67,9 +67,8 @@
   justify-content: center;
   position: relative;
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
   perspective: 1200px;
   perspective-origin: var(--perspective-origin-x, 50%) 50%;
   transform-style: preserve-3d;
@@ -79,12 +78,53 @@
 
 .editorial-section.fade-in {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .fade-in {
   opacity: 1 !important;
-  transform: translateY(0) !important;
+}
+
+/* Staggered sequential entrance animation for editorial child elements */
+.editorial-section .stagger-eyebrow,
+.editorial-section .stagger-title,
+.editorial-section .stagger-desc,
+.editorial-section .stagger-actions,
+.editorial-section .stagger-media {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Sequential stagger cascade: Eyebrow (80ms) -> Media (160ms) -> Title (220ms) -> Desc (360ms) -> Actions (500ms) */
+.editorial-section.fade-in .stagger-eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 80ms;
+}
+
+.editorial-section.fade-in .stagger-media {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 160ms;
+}
+
+.editorial-section.fade-in .stagger-title {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 220ms;
+}
+
+.editorial-section.fade-in .stagger-desc {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 360ms;
+}
+
+.editorial-section.fade-in .stagger-actions {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 500ms;
 }
 
 /* Subtle Y-axis parallax effect, 3D depth layering & macro-lens focus scale on elements inside editorial sections */
@@ -143,7 +183,13 @@
   .editorial-section .parallax-text,
   .editorial-section .parallax-title,
   .editorial-section .parallax-desc,
-  .editorial-section .macro-lens-element {
+  .editorial-section .macro-lens-element,
+  .editorial-section .stagger-eyebrow,
+  .editorial-section .stagger-title,
+  .editorial-section .stagger-desc,
+  .editorial-section .stagger-actions,
+  .editorial-section .stagger-media {
+    opacity: 1 !important;
     transform: none !important;
     filter: none !important;
     transition: none !important;

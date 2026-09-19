@@ -30,48 +30,52 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTheme, onOpenStory }) =>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
           {/* Left Column: Join our community */}
           <div className="lg:col-span-5 flex flex-col items-start parallax-text-group">
-            <h3
-              id="footer-community-heading"
-              className="font-serif-display text-2xl sm:text-3xl tracking-[0.04em] text-[#E5DFD1] font-normal mb-6 parallax-title"
-            >
-              Join our community
-            </h3>
+            <div className="stagger-title">
+              <h3
+                id="footer-community-heading"
+                className="font-serif-display text-2xl sm:text-3xl tracking-[0.04em] text-[#E5DFD1] font-normal mb-6 parallax-title"
+              >
+                Join our community
+              </h3>
+            </div>
 
-            <form onSubmit={handleSubmit} className="w-full max-w-md relative">
-              <div className="flex items-center border-b border-[#6E6A60] focus-within:border-[#E5DFD1] transition-colors pb-2">
-                <input
-                  id="footer-email-input"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  className="w-full bg-transparent text-sm font-sans-body placeholder-[#6E6A60] text-[#E5DFD1] focus:outline-none tracking-[0.05em]"
-                />
-                <button
-                  id="btn-footer-newsletter-submit"
-                  type="submit"
-                  className="ml-2 text-[#C5C0B4] hover:text-white transition-colors cursor-pointer"
-                  aria-label="Subscribe to newsletter"
-                >
-                  {isSubscribed ? (
-                    <Check className="w-4 h-4 text-emerald-400" />
-                  ) : (
-                    <ArrowRight className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
+            <div className="stagger-actions w-full">
+              <form onSubmit={handleSubmit} className="w-full max-w-md relative">
+                <div className="flex items-center border-b border-[#6E6A60] focus-within:border-[#E5DFD1] transition-colors pb-2">
+                  <input
+                    id="footer-email-input"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    required
+                    className="w-full bg-transparent text-sm font-sans-body placeholder-[#6E6A60] text-[#E5DFD1] focus:outline-none tracking-[0.05em]"
+                  />
+                  <button
+                    id="btn-footer-newsletter-submit"
+                    type="submit"
+                    className="ml-2 text-[#C5C0B4] hover:text-white transition-colors cursor-pointer"
+                    aria-label="Subscribe to newsletter"
+                  >
+                    {isSubscribed ? (
+                      <Check className="w-4 h-4 text-emerald-400" />
+                    ) : (
+                      <ArrowRight className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
 
-              {isSubscribed && (
-                <p className="text-xs font-sans-body text-emerald-400 mt-2 font-light">
-                  Thank you. You are now subscribed to the Opulence atelier dispatches.
-                </p>
-              )}
-            </form>
+                {isSubscribed && (
+                  <p className="text-xs font-sans-body text-emerald-400 mt-2 font-light">
+                    Thank you. You are now subscribed to the Opulence atelier dispatches.
+                  </p>
+                )}
+              </form>
+            </div>
           </div>
 
           {/* Right Navigation Columns: SHOP, COMPANY, HELP - Matches Screenshot 7 */}
-          <div className="lg:col-span-7 grid grid-cols-3 gap-8">
+          <div className="stagger-desc lg:col-span-7 grid grid-cols-3 gap-8">
             {/* SHOP */}
             <div className="flex flex-col">
               <h4 className="text-xs font-sans-body uppercase tracking-[0.24em] text-[#E5DFD1] mb-5 font-normal">
