@@ -19,7 +19,7 @@ export const FeaturedArtifactSection: React.FC<FeaturedArtifactSectionProps> = (
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Visual Frame - Matches Screenshot 3 */}
-        <div className="lg:col-span-6 relative group overflow-hidden shadow-2xl bg-black/40">
+        <div className="lg:col-span-6 relative group overflow-hidden shadow-2xl bg-black/40 macro-lens-element transition-transform duration-300">
           <div className="aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden">
             <img
               src={artifact.imageUrl}

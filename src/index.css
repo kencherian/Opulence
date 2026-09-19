@@ -73,6 +73,8 @@
   perspective: 1200px;
   perspective-origin: var(--perspective-origin-x, 50%) 50%;
   transform-style: preserve-3d;
+  --macro-scale: 1;
+  --macro-focus: 0;
 }
 
 .editorial-section.fade-in {
@@ -85,25 +87,36 @@
   transform: translateY(0) !important;
 }
 
-/* Subtle Y-axis parallax effect and 3D depth layering on text elements inside editorial sections */
-.editorial-section .parallax-text-group,
-.editorial-section .parallax-text,
-.editorial-section .parallax-title,
-.editorial-section .parallax-desc {
+/* Subtle Y-axis parallax effect, 3D depth layering & macro-lens focus scale on elements inside editorial sections */
+.editorial-section .parallax-text-group {
   transform: translate3d(0, var(--parallax-y, 0px), 24px);
   will-change: transform;
 }
 
 .editorial-section .parallax-title {
-  transform: translate3d(0, calc(var(--parallax-y, 0px) * 1.15), 36px);
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 1.15), 36px) scale(calc(1 + (var(--macro-scale, 1) - 1) * 1.25));
+  will-change: transform;
 }
 
 .editorial-section .parallax-desc {
-  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.82), 20px);
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.82), 20px) scale(calc(1 + (var(--macro-scale, 1) - 1) * 0.8));
+  will-change: transform;
 }
 
 .editorial-section .parallax-text {
-  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.95), 16px);
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.95), 16px) scale(calc(1 + (var(--macro-scale, 1) - 1) * 0.7));
+  will-change: transform;
+}
+
+.editorial-section .macro-lens-element {
+  transform: scale(var(--macro-scale, 1));
+  will-change: transform;
+}
+
+/* Macro-lens focus optical enhancement: gentle depth-of-field shadow when at vertical screen center */
+.editorial-section .parallax-title,
+.editorial-section .macro-lens-element {
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, calc(var(--macro-focus, 0) * 0.4)));
 }
 
 /* Dynamic Gaussian blur filter proportional to scroll velocity & 3D space preservation */
@@ -129,8 +142,10 @@
   .editorial-section .parallax-text-group,
   .editorial-section .parallax-text,
   .editorial-section .parallax-title,
-  .editorial-section .parallax-desc {
+  .editorial-section .parallax-desc,
+  .editorial-section .macro-lens-element {
     transform: none !important;
+    filter: none !important;
     transition: none !important;
   }
 }

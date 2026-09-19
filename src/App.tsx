@@ -147,8 +147,17 @@ export default function App() {
     let currentPerspectiveOriginX = 50;
     const PERSPECTIVE_LERP_FACTOR = 0.08; // Viscous response for mouse movement
 
-    // Stores the current interpolated position and target scroll position per section
-    const stateMap = new Map<HTMLElement, { current: number; target: number }>();
+    // Stores the current interpolated position, target scroll position, and macro-lens scale & focus per section
+    interface SectionMotionState {
+      currentY: number;
+      targetY: number;
+      currentScale: number;
+      targetScale: number;
+      currentFocus: number;
+      targetFocus: number;
+    }
+
+    const stateMap = new Map<HTMLElement, SectionMotionState>();
     const LERP_FACTOR = 0.07; // Viscous dampening curve: lower values yield richer, silk-like deceleration
 
     const lerp = (start: number, end: number, factor: number) => {
@@ -163,7 +172,14 @@ export default function App() {
       sections.forEach((section) => {
         let state = stateMap.get(section);
         if (!state) {
-          state = { current: 0, target: 0 };
+          state = {
+            currentY: 0,
+            targetY: 0,
+            currentScale: 1,
+            targetScale: 1,
+            currentFocus: 0,
+            targetFocus: 0,
+          };
           stateMap.set(section, state);
         }
 
@@ -174,9 +190,20 @@ export default function App() {
           const distanceFromCenter = sectionCenter - viewportCenter;
           // Negative factor ensures text moves slightly slower than background video during scroll
           const rawOffset = distanceFromCenter * -0.085;
-          state.target = Math.max(-42, Math.min(42, rawOffset));
+          state.targetY = Math.max(-42, Math.min(42, rawOffset));
+
+          // Macro-lens focus: smooth cosine bell-curve peaking when section is exactly at vertical viewport center
+          const focalZone = viewportHeight * 0.48;
+          const normalizedDist = Math.min(1, Math.abs(distanceFromCenter) / focalZone);
+          const focusFactor = Math.max(0, Math.cos((normalizedDist * Math.PI) / 2));
+
+          // Secondary scale transform expands up to 1.055x at exact vertical center
+          state.targetScale = 1 + focusFactor * 0.055;
+          state.targetFocus = focusFactor;
         } else {
-          state.target = 0;
+          state.targetY = 0;
+          state.targetScale = 1;
+          state.targetFocus = 0;
         }
       });
     };
@@ -213,15 +240,37 @@ export default function App() {
       }
 
       stateMap.forEach((state, section) => {
-        const delta = state.target - state.current;
-        // Dampen the motion frame-by-frame using linear interpolation
-        if (Math.abs(delta) > 0.04) {
-          state.current = lerp(state.current, state.target, LERP_FACTOR);
-          section.style.setProperty('--parallax-y', `${state.current.toFixed(2)}px`);
+        // 1. Interpolate parallax Y offset
+        const deltaY = state.targetY - state.currentY;
+        if (Math.abs(deltaY) > 0.04) {
+          state.currentY = lerp(state.currentY, state.targetY, LERP_FACTOR);
+          section.style.setProperty('--parallax-y', `${state.currentY.toFixed(2)}px`);
           isSettled = false;
-        } else if (state.current !== state.target) {
-          state.current = state.target;
-          section.style.setProperty('--parallax-y', `${state.target.toFixed(2)}px`);
+        } else if (state.currentY !== state.targetY) {
+          state.currentY = state.targetY;
+          section.style.setProperty('--parallax-y', `${state.targetY.toFixed(2)}px`);
+        }
+
+        // 2. Interpolate macro-lens scale transform
+        const deltaScale = state.targetScale - state.currentScale;
+        if (Math.abs(deltaScale) > 0.0006) {
+          state.currentScale = lerp(state.currentScale, state.targetScale, LERP_FACTOR);
+          section.style.setProperty('--macro-scale', state.currentScale.toFixed(4));
+          isSettled = false;
+        } else if (state.currentScale !== state.targetScale) {
+          state.currentScale = state.targetScale;
+          section.style.setProperty('--macro-scale', state.targetScale.toFixed(4));
+        }
+
+        // 3. Interpolate macro-lens optical focus factor
+        const deltaFocus = state.targetFocus - state.currentFocus;
+        if (Math.abs(deltaFocus) > 0.006) {
+          state.currentFocus = lerp(state.currentFocus, state.targetFocus, LERP_FACTOR);
+          section.style.setProperty('--macro-focus', state.currentFocus.toFixed(3));
+          isSettled = false;
+        } else if (state.currentFocus !== state.targetFocus) {
+          state.currentFocus = state.targetFocus;
+          section.style.setProperty('--macro-focus', state.targetFocus.toFixed(3));
         }
       });
 
@@ -294,6 +343,11 @@ export default function App() {
       }
       document.documentElement.style.removeProperty('--scroll-blur');
       document.documentElement.style.removeProperty('--perspective-origin-x');
+      stateMap.forEach((_, section) => {
+        section.style.removeProperty('--parallax-y');
+        section.style.removeProperty('--macro-scale');
+        section.style.removeProperty('--macro-focus');
+      });
       stateMap.clear();
     };
   }, [currentThemeId]);
