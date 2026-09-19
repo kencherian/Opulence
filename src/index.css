@@ -166,7 +166,29 @@
   will-change: filter, transform;
 }
 
+/* Gentle breathing pulse for scroll-down indicator */
+@keyframes gentle-pulse-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse-down 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .animate-gentle-pulse {
+    animation: none !important;
+    opacity: 0.8 !important;
+    transform: none !important;
+  }
+
   .editorial-section {
     opacity: 1 !important;
     transform: none !important;

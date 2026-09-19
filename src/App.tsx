@@ -20,6 +20,7 @@ import { DetailModal } from './components/DetailModal';
 import { MenuDrawer } from './components/MenuDrawer';
 import { LightStudyModal } from './components/LightStudyModal';
 import { ReadingProgressBar } from './components/ReadingProgressBar';
+import { ScrollDownIndicator } from './components/ScrollDownIndicator';
 import { soundscape } from './utils/soundscape';
 
 export default function App() {
@@ -428,11 +429,16 @@ export default function App() {
       />
 
       {/* 3. Hero Overlay (Matches Screenshot 1) */}
-      <div className={`editorial-section ${heroMounted ? 'fade-in' : ''}`}>
+      <div className={`editorial-section relative ${heroMounted ? 'fade-in' : ''}`}>
         <HeroOverlay
           theme={currentTheme}
           onExploreClick={() => scrollToSection('secondary-video-section')}
           onInspectClick={() => setIsLightStudyOpen(true)}
+        />
+        <ScrollDownIndicator
+          id="scroll-indicator-hero"
+          targetId="secondary-video-section"
+          label="Scroll to Coastal Serenity"
         />
       </div>
 
@@ -451,47 +457,72 @@ export default function App() {
       />
 
       {/* 5. Secondary Video Section (Matches Screenshot 2 - "COASTAL SERENITY") */}
-      <div className="editorial-section">
+      <div className="editorial-section relative">
         <SecondaryVideoSection
           theme={currentTheme}
-          onCtaClick={() => scrollToSection('elements-grid-section')}
+          onCtaClick={() => scrollToSection('featured-artifact-section')}
+        />
+        <ScrollDownIndicator
+          id="scroll-indicator-secondary"
+          targetId="featured-artifact-section"
+          label="Scroll to Featured Artifact"
         />
       </div>
 
       {/* 6. Featured Artifact Split Showcase (Matches Screenshot 3 - "MOUNTAIN DAWN") */}
-      <div className="editorial-section">
+      <div className="editorial-section relative">
         <FeaturedArtifactSection
           theme={currentTheme}
           onViewGallery={() => scrollToSection('elements-grid-section')}
         />
+        <ScrollDownIndicator
+          id="scroll-indicator-featured"
+          targetId="elements-grid-section"
+          label="Scroll to Earth Elements"
+        />
       </div>
 
       {/* 7. Elements Grid (Matches Screenshot 4 - "ELEMENTS OF EARTH") */}
-      <div className="editorial-section">
+      <div className="editorial-section relative">
         <ElementsGrid
           theme={currentTheme}
           onSelectSpecimen={(item) => setSelectedSpecimen(item)}
         />
+        <ScrollDownIndicator
+          id="scroll-indicator-elements"
+          targetId="philosophy-banner-section"
+          label="Scroll to Philosophy"
+        />
       </div>
 
       {/* 8. Philosophy Banner (Matches Screenshot 5 - "TRUE TO NATURE") */}
-      <div className="editorial-section">
+      <div className="editorial-section relative">
         <PhilosophyBanner
           theme={currentTheme}
           onCtaClick={() => setIsLightStudyOpen(true)}
         />
+        <ScrollDownIndicator
+          id="scroll-indicator-philosophy"
+          targetId="split-editorial-section"
+          label="Scroll to Editorial Journey"
+        />
       </div>
 
       {/* 9. Split Editorial Journey Section (Matches Screenshot 6 - "FOLLOW THE JOURNEY") */}
-      <div className="editorial-section">
+      <div className="editorial-section relative">
         <SplitEditorialSection
           theme={currentTheme}
           onFollowClick={() => scrollToSection('main-footer')}
         />
+        <ScrollDownIndicator
+          id="scroll-indicator-split"
+          targetId="main-footer"
+          label="Scroll to Community & Atelier"
+        />
       </div>
 
       {/* 10. Minimalist Luxury Footer (Matches Screenshot 7) */}
-      <div className="editorial-section">
+      <div className="editorial-section relative">
         <Footer
           onSelectTheme={handleSelectTheme}
           onOpenStory={() => setIsMenuOpen(true)}

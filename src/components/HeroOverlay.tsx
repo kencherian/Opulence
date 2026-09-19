@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeConfig } from '../types';
-import { ArrowDown, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 interface HeroOverlayProps {
   theme: ThemeConfig;
@@ -69,19 +69,6 @@ export const HeroOverlay: React.FC<HeroOverlayProps> = ({
           </button>
         </div>
       </div>
-
-      {/* Subtle bottom scroll prompt */}
-      <button
-        id="hero-scroll-prompt"
-        onClick={onExploreClick}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#A8A49C] hover:text-[#ECE7DC] transition-colors cursor-pointer group"
-        aria-label="Scroll down to explore story"
-      >
-        <span className="text-[10px] font-sans-body uppercase tracking-[0.28em] font-light">
-          Scroll Down
-        </span>
-        <ArrowDown className="w-4 h-4 animate-bounce group-hover:text-white transition-colors" />
-      </button>
     </section>
   );
 };
