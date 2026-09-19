@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #121312;
+    color: #e5e5e3;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-snap-type: y mandatory;
+  }
+
+  ::selection {
+    background-color: rgba(220, 210, 185, 0.3);
+    color: #ffffff;
+  }
+}
+
+.font-serif-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.font-sans-body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111211;
+}
+::-webkit-scrollbar-thumb {
+  background: #333633;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555955;
+}
+
+/* Editorial section scroll snapping, reveal & presentation layout */
+.editorial-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+  perspective: 1200px;
+  perspective-origin: var(--perspective-origin-x, 50%) 50%;
+  transform-style: preserve-3d;
+  --macro-scale: 1;
+  --macro-focus: 0;
+}
+
+.editorial-section.fade-in {
+  opacity: 1;
+}
+
+.fade-in {
+  opacity: 1 !important;
+}
+
+/* Staggered sequential entrance animation for editorial child elements */
+.editorial-section .stagger-eyebrow,
+.editorial-section .stagger-title,
+.editorial-section .stagger-desc,
+.editorial-section .stagger-actions,
+.editorial-section .stagger-media {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Sequential stagger cascade: Eyebrow (80ms) -> Media (160ms) -> Title (220ms) -> Desc (360ms) -> Actions (500ms) */
+.editorial-section.fade-in .stagger-eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 80ms;
+}
+
+.editorial-section.fade-in .stagger-media {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 160ms;
+}
+
+.editorial-section.fade-in .stagger-title {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 220ms;
+}
+
+.editorial-section.fade-in .stagger-desc {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 360ms;
+}
+
+.editorial-section.fade-in .stagger-actions {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 500ms;
+}
+
+/* Subtle Y-axis parallax effect, 3D depth layering & macro-lens focus scale on elements inside editorial sections */
+.editorial-section .parallax-text-group {
+  transform: translate3d(0, var(--parallax-y, 0px), 24px);
+  will-change: transform;
+}
+
+.editorial-section .parallax-title {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 1.15), 36px) scale(calc(1 + (var(--macro-scale, 1) - 1) * 1.25));
+  will-change: transform;
+}
+
+.editorial-section .parallax-desc {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.82), 20px) scale(calc(1 + (var(--macro-scale, 1) - 1) * 0.8));
+  will-change: transform;
+}
+
+.editorial-section .parallax-text {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) * 0.95), 16px) scale(calc(1 + (var(--macro-scale, 1) - 1) * 0.7));
+  will-change: transform;
+}
+
+.editorial-section .macro-lens-element {
+  transform: scale(var(--macro-scale, 1));
+  will-change: transform;
+}
+
+/* Macro-lens focus optical enhancement: gentle depth-of-field shadow when at vertical screen center */
+.editorial-section .parallax-title,
+.editorial-section .macro-lens-element {
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, calc(var(--macro-focus, 0) * 0.4)));
+}
+
+/* Dynamic Gaussian blur filter proportional to scroll velocity & 3D space preservation */
+.editorial-section > * {
+  filter: blur(var(--scroll-blur, 0px));
+  transform-style: preserve-3d;
+  will-change: filter, transform;
+}
+
+/* Gentle breathing pulse for scroll-down indicator */
+@keyframes gentle-pulse-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse-down 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gentle-pulse {
+    animation: none !important;
+    opacity: 0.8 !important;
+    transform: none !important;
+  }
+
+  .editorial-section {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    perspective: none !important;
+    perspective-origin: 50% 50% !important;
+  }
+
+  .editorial-section > * {
+    filter: none !important;
+  }
+
+  .editorial-section .parallax-text-group,
+  .editorial-section .parallax-text,
+  .editorial-section .parallax-title,
+  .editorial-section .parallax-desc,
+  .editorial-section .macro-lens-element,
+  .editorial-section .stagger-eyebrow,
+  .editorial-section .stagger-title,
+  .editorial-section .stagger-desc,
+  .editorial-section .stagger-actions,
+  .editorial-section .stagger-media {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
